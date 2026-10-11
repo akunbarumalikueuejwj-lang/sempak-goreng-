@@ -1,0 +1,2229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Steal an Egg - MiozXrip</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-1: #17170f;
+    --accent-1: #d6a65c;
+    --accent-2: #c97883;
+    --accent-3: #e8c27a;
+    --green: #a9bd86;
+    --text-1: #fff8e9;
+    --text-2: #ded5c2;
+    --text-3: #a49b87;
+    --card-border: rgba(232, 194, 122, 0.15);
+  }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #17170f;
+    background-image:
+      radial-gradient(circle at 0% 0%, rgba(192, 139, 67, 0.19) 0%, transparent 48%),
+      radial-gradient(circle at 100% 100%, rgba(169, 91, 103, 0.15) 0%, transparent 48%),
+      radial-gradient(circle at 50% 50%, rgba(130, 130, 78, 0.08) 0%, transparent 60%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 16px 200px;
+    color: var(--text-1);
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    background: linear-gradient(180deg, rgba(69, 61, 43, 0.76) 0%, rgba(29, 28, 21, 0.94) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(232, 194, 122, 0.19);
+    border-radius: 24px;
+    padding: 20px;
+    width: 100%;
+    max-width: 460px;
+    box-shadow:
+      0 0 0 1px rgba(255,248,233,0.02) inset,
+      0 20px 60px rgba(0,0,0,0.55),
+      0 0 90px rgba(190,139,67,0.08);
+    position: relative;
+  }
+  .container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(232,194,122,0.75), rgba(201,120,131,0.7), transparent);
+    border-radius: 24px 24px 0 0;
+  }
+
+  /* HEADER PROFILE */
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255, 244, 220, 0.035);
+    border: 1px solid rgba(232,194,122,0.15);
+    border-radius: 16px;
+    margin-bottom: 12px;
+  }
+  .avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #b88b4c 0%, #c97883 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 20px rgba(190,139,67,0.28);
+    overflow: hidden;
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .profile-info { flex: 1; min-width: 0; }
+  .profile-name {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: var(--text-1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 3px;
+  }
+  .verified {
+    width: 15px;
+    height: 15px;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    color: white;
+    flex-shrink: 0;
+  }
+  .profile-role {
+    display: inline-block;
+    font-size: 0.56rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #b98b4d 0%, #bd747f 100%);
+    color: #fffaf0;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .header-title {
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .header-title h1 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    background: linear-gradient(135deg, #e9c77f 0%, #d69a79 52%, #c97883 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 3px;
+  }
+  .header-title .dev-credit {
+    font-size: 0.66rem;
+    color: var(--text-3);
+    font-weight: 500;
+  }
+  .header-title .dev-credit span {
+    color: #e8c27a;
+    font-weight: 700;
+  }
+
+  /* BANNER */
+  .banner {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 16px;
+    border: 1px solid rgba(232,194,122,0.42);
+    background: linear-gradient(135deg, rgba(190,139,67,0.2), rgba(169,91,103,0.18));
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 22px rgba(190,139,67,0.08);
+  }
+  .banner img,
+  .banner video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .banner video {
+    position: absolute;
+    inset: 0;
+  }
+  .banner-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 14px;
+    background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.85) 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .banner-overlay-text {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+  }
+  .banner-overlay-sub {
+    font-size: 0.66rem;
+    color: rgba(255,255,255,0.8);
+    margin-top: 2px;
+    font-weight: 500;
+  }
+
+  /* SECTION */
+  .section {
+    background: linear-gradient(145deg, rgba(43,40,29,0.88), rgba(22,22,17,0.78));
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(232,194,122,0.12);
+    transition: border 0.2s;
+  }
+  .section:hover { border-color: rgba(232,194,122,0.3); }
+  .section-title {
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #e8c27a;
+    margin-bottom: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .section-title::before {
+    content: '';
+    width: 3px;
+    height: 12px;
+    background: linear-gradient(180deg, #e8c27a, #c97883);
+    border-radius: 2px;
+  }
+  .section-title iconify-icon {
+    font-size: 16px;
+    line-height: 0;
+    color: #e8c27a;
+  }
+
+  .field { margin-bottom: 10px; }
+  .field:last-child { margin-bottom: 0; }
+  label {
+    display: block;
+    font-size: 0.73rem;
+    color: var(--text-2);
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  .row { display: flex; gap: 8px; }
+  .row .field { flex: 1; }
+
+  input[type="number"], input[type="text"], select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(232,194,122,0.17);
+    background-color: rgba(10,10,8,0.62);
+    color: #fff8e9;
+    font-size: 0.85rem;
+    font-family: inherit;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input::placeholder { color: var(--text-3); }
+  input:focus, select:focus {
+    border-color: #d6a65c;
+    background: rgba(214,166,92,0.06);
+    box-shadow: 0 0 0 3px rgba(214,166,92,0.14);
+  }
+  select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'><path fill='%23e8c27a' d='M7 10L2 5h10z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+  select option { background: #1a1a3a; color: white; padding: 8px; }
+
+  button.main-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 6px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #b98b4d 0%, #bd747f 100%);
+    color: #fffaf0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(190,139,67,0.24);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 50px;
+  }
+  button.main-btn:disabled { cursor: not-allowed; opacity: 0.9; }
+  button.main-btn .btn-icon-svg {
+    width: 20px;
+    height: 20px;
+    color: white;
+    transition: transform 0.3s;
+  }
+  button.main-btn:hover:not(:disabled) .btn-icon-svg {
+    transform: rotate(90deg);
+  }
+  button.main-btn.loading .btn-icon-svg {
+    animation: gearSpin 1.2s linear infinite;
+    transform-origin: center;
+  }
+  @keyframes gearSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  button.main-btn.loading {
+    background: linear-gradient(135deg, #98713d 0%, #a85f6b 100%);
+    animation: btnPulse 1.5s ease-in-out infinite;
+  }
+  @keyframes btnPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(190,139,67,0.24); }
+    50% { box-shadow: 0 4px 30px rgba(190,139,67,0.4), 0 0 36px rgba(201,120,131,0.18); }
+  }
+  button.main-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(190,139,67,0.32);
+  }
+
+  /* BOTTOM NAVIGATION */
+  .bottom-nav {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 32px);
+    max-width: 428px;
+    background: linear-gradient(180deg, rgba(49,45,32,0.96) 0%, rgba(20,20,15,0.98) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(232,194,122,0.27);
+    border-radius: 20px;
+    padding: 8px;
+    display: flex;
+    gap: 6px;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.55), 0 0 48px rgba(190,139,67,0.08);
+    z-index: 100;
+  }
+  .bottom-nav::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 20%; right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(232,194,122,0.75), rgba(201,120,131,0.7), transparent);
+  }
+  .nav-item {
+    flex: 1;
+    padding: 10px 8px;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-3);
+    user-select: none;
+    position: relative;
+  }
+  .nav-item.active {
+    background: linear-gradient(135deg, rgba(190,139,67,0.25), rgba(201,120,131,0.22));
+    color: white;
+    box-shadow: 0 4px 16px rgba(190,139,67,0.16);
+  }
+  .nav-item:not(.active):hover {
+    background: rgba(255,255,255,0.04);
+    color: var(--text-2);
+  }
+  .nav-icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-icon iconify-icon {
+    color: currentColor;
+    transition: all 0.25s;
+  }
+  #navTreadmill .nav-icon iconify-icon {
+    font-size: 27px;
+    line-height: 0;
+  }
+  #navEgg .nav-icon iconify-icon {
+    font-size: 24px;
+    line-height: 0;
+  }
+  #navMusic .nav-icon iconify-icon {
+    font-size: 24px;
+    line-height: 0;
+  }
+  .nav-item.active .nav-icon iconify-icon {
+    filter: drop-shadow(0 0 6px rgba(232,194,122,0.55));
+  }
+  .nav-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  #navMusic.playing {
+    background: linear-gradient(135deg, rgba(190,139,67,0.34), rgba(201,120,131,0.3));
+    color: white;
+    box-shadow: 0 4px 16px rgba(190,139,67,0.25);
+    animation: musicPulse 1.5s ease-in-out infinite;
+  }
+  #navMusic.playing .nav-icon iconify-icon {
+    filter: drop-shadow(0 0 8px rgba(232,194,122,0.7));
+  }
+  @keyframes musicPulse {
+    0%, 100% { box-shadow: 0 4px 16px rgba(190,139,67,0.2); }
+    50% { box-shadow: 0 4px 24px rgba(201,120,131,0.32), 0 0 30px rgba(190,139,67,0.22); }
+  }
+
+  /* OVERLAY LOADING (KALKULATOR) */
+  .steps-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(18,17,12,0.94);
+    backdrop-filter: blur(12px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  .steps-overlay.show { display: flex; }
+  .steps-card {
+    background: linear-gradient(180deg, rgba(69,61,43,0.82), rgba(29,28,21,0.98));
+    border: 1px solid rgba(232,194,122,0.3);
+    border-radius: 20px;
+    padding: 24px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 100px rgba(190,139,67,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  .steps-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #e8c27a, #c97883, transparent);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s linear infinite;
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .spinner-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .spinner-ring {
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+  .spinner-ring svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transform: rotate(-90deg);
+  }
+  .spinner-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+  }
+  .spinner-percent {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #e8c27a, #c97883);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+  .spinner-label {
+    font-size: 0.55rem;
+    color: var(--text-3);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 3px;
+  }
+  .spinner-text {
+    font-size: 0.68rem;
+    color: var(--text-3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 12px;
+    animation: fadeInOut 1.5s ease-in-out infinite;
+    text-align: center;
+  }
+  @keyframes fadeInOut {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+  .steps-header {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .steps-title {
+    font-size: 0.72rem;
+    color: #e8c27a;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .steps-subtitle {
+    font-size: 0.7rem;
+    color: var(--text-3);
+  }
+  .step-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    opacity: 0.4;
+    transition: opacity 0.3s;
+  }
+  .step-item.active { opacity: 1; }
+  .step-item.done { opacity: 1; }
+  .step-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    flex-shrink: 0;
+    transition: all 0.3s;
+    background: rgba(0,0,0,0.3);
+    color: var(--text-3);
+  }
+  .step-item.active .step-icon {
+    border-color: #d6a65c;
+    background: rgba(214,166,92,0.16);
+    box-shadow: 0 0 12px rgba(214,166,92,0.28);
+    color: white;
+    animation: pulseIcon 1s ease-in-out infinite;
+  }
+  @keyframes pulseIcon {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+  .step-item.done .step-icon {
+    border-color: #a9bd86;
+    background: rgba(169,189,134,0.15);
+    color: #b9cf91;
+  }
+  .step-text {
+    font-size: 0.76rem;
+    color: var(--text-2);
+    font-weight: 500;
+    flex: 1;
+  }
+  .step-item.done .step-text { color: var(--text-1); }
+  .step-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #e8c27a;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .step-item.done .step-value { opacity: 1; }
+  .progress-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    margin-top: 14px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #b98b4d, #c97883, #e8c27a);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.15s linear;
+    box-shadow: 0 0 10px rgba(214,166,92,0.3);
+  }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    font-size: 0.7rem;
+    color: var(--text-3);
+  }
+  .progress-percent {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: #e8c27a;
+    font-size: 0.75rem;
+  }
+
+  .result {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(190,139,67,0.09), rgba(201,120,131,0.08));
+    border: 1px solid rgba(232,194,122,0.3);
+    display: none;
+    position: relative;
+  }
+  .result::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(232,194,122,0.75), rgba(201,120,131,0.65), transparent);
+  }
+  .result.show { display: block; animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .result h2 {
+    font-size: 0.7rem;
+    color: #e8c27a;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+  }
+  .detail {
+    font-size: 0.74rem;
+    color: var(--text-2);
+    line-height: 1.75;
+    border-top: 1px dashed rgba(255,255,255,0.1);
+    padding-top: 10px;
+    margin-top: 10px;
+  }
+  .detail span { color: #e8c27a; font-weight: 600; }
+  .detail .highlight { color: var(--green); font-weight: 700; }
+
+  .note {
+    font-size: 0.66rem;
+    color: var(--text-3);
+    text-align: center;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  .checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+  }
+  .checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255,244,220,0.035);
+    padding: 8px 6px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    margin-bottom: 0;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: 600;
+    color: var(--text-2);
+  }
+  .checkbox-group label:hover {
+    background: rgba(232,194,122,0.08);
+    transform: translateY(-1px);
+  }
+  .checkbox-group input[type="checkbox"] {
+    width: 0;
+    height: 0;
+    position: absolute;
+    opacity: 0;
+  }
+  .checkbox-group label.checked {
+    background: linear-gradient(135deg, rgba(190,139,67,0.25), rgba(201,120,131,0.2));
+    border-color: rgba(232,194,122,0.4);
+    color: white;
+    box-shadow: 0 4px 12px rgba(190,139,67,0.12);
+  }
+
+  .result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    animation: slideIn 0.4s backwards;
+  }
+  .result-item:nth-child(1) { animation-delay: 0.05s; }
+  .result-item:nth-child(2) { animation-delay: 0.1s; }
+  .result-item:nth-child(3) { animation-delay: 0.15s; }
+  .result-item:nth-child(4) { animation-delay: 0.2s; }
+  .result-item:nth-child(5) { animation-delay: 0.25s; }
+  .result-item:nth-child(6) { animation-delay: 0.3s; }
+  .result-item:last-child { border-bottom: none; }
+  .result-item .label {
+    font-size: 0.76rem;
+    color: var(--text-2);
+    font-weight: 500;
+  }
+  .result-item .value {
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: #e8c27a;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .result-item .value.big-green {
+    color: #b9cf91;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-shadow: 0 0 20px rgba(169,189,134,0.25);
+  }
+  .result-item .value.small {
+    font-size: 0.7rem;
+    color: var(--text-3);
+    font-weight: 500;
+  }
+
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 10px;
+  }
+  .toggle-row:last-of-type { border-bottom: none; }
+  .toggle-row .toggle-label {
+    font-size: 0.76rem;
+    color: var(--text-2);
+    font-weight: 600;
+  }
+  .toggle-row .toggle-desc {
+    font-size: 0.64rem;
+    color: var(--text-3);
+    margin-top: 2px;
+  }
+  .switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .switch.on {
+    background: linear-gradient(135deg, #b98b4d 0%, #bd747f 100%);
+    border-color: transparent;
+    box-shadow: 0 0 16px rgba(190,139,67,0.25);
+  }
+  .switch::after {
+    content: '';
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 16px; height: 16px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  .switch.on::after { transform: translateX(20px); }
+
+  .hidden { display: none !important; }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .input-wrapper input {
+    flex: 1;
+    padding-right: 85px;
+  }
+  .input-badge {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, #b98b4d 0%, #bd747f 100%);
+    color: #fffaf0;
+    font-size: 0.64rem;
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 7px;
+    pointer-events: none;
+    min-width: 50px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(190,139,67,0.25);
+    transition: opacity 0.2s, transform 0.2s;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .input-badge.empty {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.7);
+  }
+  .input-badge.pulse {
+    animation: badgePulse 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @keyframes badgePulse {
+    0% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.18); }
+    100% { transform: translateY(-50%) scale(1); }
+  }
+
+  .mode-switch {
+    display: flex;
+    gap: 4px;
+    background: rgba(0,0,0,0.35);
+    padding: 5px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .mode-switch .mode-btn {
+    flex: 1;
+    padding: 8px;
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-3);
+    transition: all 0.25s;
+    user-select: none;
+  }
+  .mode-switch .mode-btn.active {
+    background: linear-gradient(135deg, rgba(190,139,67,0.25), rgba(201,120,131,0.22));
+    color: white;
+    border: 1px solid rgba(232,194,122,0.4);
+    box-shadow: 0 2px 10px rgba(190,139,67,0.15);
+  }
+
+  .quick-btns {
+    display: flex;
+    gap: 5px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .quick-btns button {
+    padding: 5px 10px;
+    font-size: 0.68rem;
+    border-radius: 8px;
+    background: rgba(255,244,220,0.045);
+    color: var(--text-2);
+    border: 1px solid rgba(232,194,122,0.13);
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+    transition: all 0.2s;
+    margin-top: 0;
+    width: auto;
+  }
+  .quick-btns button:hover {
+    background: linear-gradient(135deg, rgba(190,139,67,0.22), rgba(201,120,131,0.18));
+    color: white;
+    border-color: rgba(232,194,122,0.38);
+    transform: translateY(-1px);
+  }
+
+  /* ===== INTRO SCREEN ===== */
+  #introScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #17130e;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .85s ease, visibility .85s ease;
+    isolation: isolate;
+  }
+  #introScreen.intro-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  #introVideo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -3;
+    filter: brightness(.5) saturate(.85) blur(2px);
+  }
+  #introScreen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: linear-gradient(180deg, rgba(21,16,10,.35), rgba(20,14,10,.65) 55%, rgba(12,10,8,.96));
+  }
+
+  /* ANIMASI LOADING RING */
+  .intro-loading {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 28px;
+  }
+  .intro-loading svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    display: block;
+  }
+  .intro-loading .ring-bg {
+    fill: none;
+    stroke: rgba(232,194,122,0.1);
+    stroke-width: 3;
+  }
+  .intro-loading .ring-fill {
+    fill: none;
+    stroke: url(#introGradient);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 0 408;
+    filter: url(#introGlow);
+    transition: stroke-dasharray 0.1s linear;
+  }
+  .intro-loading-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+  }
+  .intro-loading-percent {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #e8c27a 0%, #c97883 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+  .intro-loading-label {
+    font-size: 0.5rem;
+    color: rgba(255,244,224,0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .intro-loading .orbit {
+    position: absolute;
+    inset: -8px;
+    animation: orbitSpin 3s linear infinite;
+  }
+  .intro-loading .orbit::before,
+  .intro-loading .orbit::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #e8c27a;
+    box-shadow: 0 0 12px rgba(232,194,122,0.8);
+  }
+  .intro-loading .orbit::before {
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+  }
+  .intro-loading .orbit::after {
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    background: #c97883;
+    box-shadow: 0 0 12px rgba(201,120,131,0.8);
+  }
+  @keyframes orbitSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .intro-content {
+    width: min(88%, 420px);
+    text-align: center;
+    padding: 28px 20px;
+    z-index: 2;
+    position: relative;
+  }
+
+  /* Kicker - typing */
+  .intro-kicker {
+    color: #e8c27a;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    min-height: 14px;
+  }
+
+  /* Title - reveal per kata */
+  .intro-title {
+    font-size: clamp(1.8rem, 7vw, 2.6rem);
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -.035em;
+    color: #fff5e3;
+    text-shadow: 0 3px 25px rgba(0,0,0,.45);
+    margin-bottom: 8px;
+  }
+  .intro-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px) rotateX(-90deg);
+    transform-origin: bottom;
+    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    margin: 0 2px;
+  }
+  .intro-word.revealed {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
+  .intro-brand {
+    background: linear-gradient(100deg, #f1d69b 0%, #d9a07f 32%, #f7e3bd 50%, #d18b98 72%, #f1d69b 100%);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: welcomeShimmer 3.2s linear infinite;
+  }
+  @keyframes welcomeShimmer {
+    from { background-position: 100% center; }
+    to { background-position: -120% center; }
+  }
+
+  /* Subtitle - typing */
+  .intro-subtitle {
+    margin: 18px 0 26px;
+    color: rgba(255,244,224,.72);
+    font-size: .8rem;
+    letter-spacing: .04em;
+    min-height: 20px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .intro-subtitle .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 14px;
+    background: #e8c27a;
+    margin-left: 2px;
+    animation: cursorBlink 0.7s steps(1) infinite;
+    vertical-align: middle;
+  }
+  @keyframes cursorBlink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Tombol muncul dengan bounce */
+  .intro-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .intro-actions.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #enterTools {
+    border: 1px solid rgba(255,239,202,.5);
+    border-radius: 999px;
+    padding: 14px 25px;
+    min-width: 205px;
+    background: linear-gradient(120deg, #b98b4d, #bd747f);
+    color: #fffaf0;
+    font: inherit;
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    box-shadow: 0 8px 30px rgba(190,139,67,.25), inset 0 1px rgba(255,255,255,.2);
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease, opacity .2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  #enterTools:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  #enterTools:not(:disabled):active { transform: scale(.97); }
+  #enterTools:not(:disabled):hover {
+    box-shadow: 0 8px 34px rgba(190,139,67,.4), 0 0 22px rgba(201,120,131,.15), inset 0 1px rgba(255,255,255,.2);
+  }
+
+  #introMusicBtn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,239,202,.5);
+    background: rgba(43, 40, 29, 0.75);
+    color: #fffaf0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+    box-shadow: 0 4px 16px rgba(190,139,67,.2);
+  }
+  #introMusicBtn:hover { transform: scale(1.08); }
+  #introMusicBtn:active { transform: scale(0.95); }
+  #introMusicBtn.playing {
+    background: linear-gradient(135deg, rgba(190,139,67,0.4), rgba(201,120,131,0.35));
+    animation: introMusicPulse 1.5s ease-in-out infinite;
+  }
+  @keyframes introMusicPulse {
+    0%, 100% { box-shadow: 0 4px 16px rgba(190,139,67,0.2); }
+    50% { box-shadow: 0 4px 24px rgba(201,120,131,0.4), 0 0 30px rgba(190,139,67,0.3); }
+  }
+
+  .intro-hint {
+    margin-top: 14px;
+    color: rgba(255,244,224,.55);
+    font-size: .68rem;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .intro-hint.revealed {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #introScreen * { animation: none !important; transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== INTRO SCREEN dengan animasi typing ====== -->
+<div id="introScreen" role="dialog" aria-label="Intro Kalkulator Steal an Egg">
+  <video id="introVideo" autoplay muted loop playsinline preload="auto">
+    <source src="https://files.catbox.moe/xx2z71.mp4" type="video/mp4">
+  </video>
+
+  <div class="intro-content">
+    <div class="intro-kicker" id="introKicker"></div>
+
+    <!-- ANIMASI LOADING RING -->
+    <div class="intro-loading">
+      <svg viewBox="0 0 140 140">
+        <defs>
+          <linearGradient id="introGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#e8c27a" stop-opacity="0" />
+            <stop offset="50%" stop-color="#d6a65c" stop-opacity="0.7" />
+            <stop offset="100%" stop-color="#c97883" stop-opacity="1" />
+          </linearGradient>
+          <filter id="introGlow">
+            <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <circle class="ring-bg" cx="70" cy="70" r="65"/>
+        <circle class="ring-fill" id="introRingFill" cx="70" cy="70" r="65"/>
+      </svg>
+      <div class="intro-loading-center">
+        <div class="intro-loading-percent" id="introPercent">0%</div>
+        <div class="intro-loading-label">Loading</div>
+      </div>
+      <div class="orbit"></div>
+    </div>
+
+    <!-- TITLE dengan reveal per kata -->
+    <h1 class="intro-title">
+      <span class="intro-word" data-text="Welcome"></span>
+      <span class="intro-word" data-text="to"></span>
+      <span class="intro-word intro-brand" data-text="Tools MiozXripZ"></span>
+    </h1>
+
+    <!-- SUBTITLE typing -->
+    <p class="intro-subtitle" id="introSubtitle"></p>
+
+    <div class="intro-actions">
+      <button id="enterTools" type="button" disabled>
+        <span id="enterText">▶ &nbsp; MASUK KE TOOLS</span>
+      </button>
+      <button id="introMusicBtn" type="button" aria-label="Play/Pause Musik">
+        <iconify-icon icon="streamline-ultimate:button-play-bold" id="introMusicIcon" style="font-size: 22px;"></iconify-icon>
+      </button>
+    </div>
+    <div class="intro-hint" id="introHint">Menunggu loading selesai...</div>
+  </div>
+</div>
+
+  <div class="container">
+  <!-- HEADER PROFILE -->
+  <div class="header-top">
+    <div class="avatar">🥚</div>
+    <div class="profile-info">
+      <div class="profile-name">
+        MiozXrip
+        <span class="verified">✓</span>
+      </div>
+      <span class="profile-role">Developer</span>
+    </div>
+  </div>
+
+  <!-- HEADER TITLE -->
+  <div class="header-title">
+    <h1>Kalkulator Steal an Egg</h1>
+    <div class="dev-credit">Dev Tools by <span>MiozXrip</span></div>
+  </div>
+
+  <!-- BANNER -->
+  <div class="banner">
+    <video autoplay loop muted playsinline>
+      <source src="https://files.catbox.moe/pelzj2.mp4" type="video/mp4">
+    </video>
+    <div class="banner-overlay">
+      <div class="banner-overlay-text">Tools Steal an Egg</div>
+      <div class="banner-overlay-sub">by MiozXripZ</div>
+    </div>
+  </div>
+
+  <!-- TAB AFK TREADMILL -->
+  <div id="modeAfk">
+    <div class="section">
+      <div class="section-title">
+        <iconify-icon icon="icon-park-outline:treadmill-two"></iconify-icon>
+        Setup Treadmill
+      </div>
+      <div class="field">
+        <label>Treadmill (Base Speed/Step)</label>
+        <select id="treadmill">
+          <option value="1">Tidak pakai treadmill (+1)</option>
+          <option value="2">Treadmill (Free) - +2</option>
+          <option value="5">Sci-Fi Treadmill ($15K) - +5</option>
+          <option value="12">Flame Treadmill ($250K) - +12</option>
+          <option value="30">Celebrity Treadmill ($5M) - +30</option>
+          <option value="80">Golden Treadmill ($120M) - +80</option>
+          <option value="100">The Freeze Treadmill ($3B) - +100</option>
+          <option value="200">Lucky Block Treadmill ($75B) - +200</option>
+          <option value="500">Hacker Treadmill ($2T–$3T) - +500</option>
+          <option value="1000">Demonic Treadmill ($50T) - +1,000</option>
+          <option value="2000">Angelic Treadmill ($1Q / $1Qa) - +2,000</option>
+          <option value="3000">Astral Treadmill ($15Qa) - +3,000</option>
+          <option value="8500" selected>Temple Treadmill - +8,500</option>
+          <option value="custom">Custom...</option>
+        </select>
+      </div>
+      <div class="field" id="customTreadmillField" style="display:none;">
+        <label>Custom Treadmill Speed/Step (+)</label>
+        <div class="input-wrapper">
+          <input type="text" id="customTreadmill" value="8500" placeholder="cth: 8500 atau 8.5K">
+          <div class="input-badge empty" id="customTreadmillBadge"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        <iconify-icon icon="game-icons:ringed-beam"></iconify-icon>
+        Setup Trail
+      </div>
+      <div class="field">
+        <label>Trail (Speed Multiplier)</label>
+        <select id="trail">
+          <option value="1">Tidak pakai Trail (x1)</option>
+          <option value="1.5">Jejak Abu-abu - x1.5</option>
+          <option value="2">Jalur Hijau - x2</option>
+          <option value="2.5">Jejak Biru - x2.5</option>
+          <option value="3">Jejak Ungu - x3</option>
+          <option value="3.5">Jejak Emas - x3.5</option>
+          <option value="4">Jejak Merah - x4</option>
+          <option value="5">Jejak Galaksi - x5</option>
+          <option value="7">Jejak Rahasia - x7</option>
+          <option value="10">Jejak Abadi - x10</option>
+          <option value="14">Jejak Ilahi - x14</option>
+          <option value="20" selected>Jalur Moonbloom - x20</option>
+          <option value="custom">Custom...</option>
+        </select>
+      </div>
+      <div class="field" id="customTrailField" style="display:none;">
+        <label>Custom Trail Multiplier (x)</label>
+        <input type="number" id="customTrail" value="1" min="0" step="0.1">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        <iconify-icon icon="ri:vip-fill"></iconify-icon>
+        Gamepass Speed
+      </div>
+      <div class="checkbox-group" id="gamepassGroup">
+        <label><input type="checkbox" value="2"> x2</label>
+        <label><input type="checkbox" value="4"> x4</label>
+        <label><input type="checkbox" value="8"> x8</label>
+        <label class="checked"><input type="checkbox" value="16" checked> x16</label>
+        <label><input type="checkbox" value="32"> x32</label>
+        <label><input type="checkbox" value="64"> x64</label>
+        <label><input type="checkbox" value="128"> x128</label>
+        <label><input type="checkbox" value="256"> x256</label>
+        <label><input type="checkbox" value="512"> x512</label>
+        <label><input type="checkbox" value="1024"> x1K</label>
+        <label><input type="checkbox" value="2048"> x2K</label>
+        <label><input type="checkbox" value="4096"> x4K</label>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        <iconify-icon icon="mdi:cog"></iconify-icon>
+        Speed/Step & Pengaturan
+      </div>
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label"> Mode Kalibrasi</div>
+          <div class="toggle-desc">Pakai Speed/Step asli dari game</div>
+        </div>
+        <div class="switch" id="calibSwitch" onclick="toggleCalib()"></div>
+      </div>
+      <div class="field hidden" id="manualSpeedField">
+        <label>Speed/Step asli dari game</label>
+        <div class="input-wrapper">
+          <input type="text" id="manualSpeedInput" value="297.5K" placeholder="cth: 297.5K">
+          <div class="input-badge empty" id="manualSpeedBadge"></div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Step per Detik</label>
+        <input type="number" id="stepsPerSec" value="11.16" min="0.001" step="0.001">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        <iconify-icon icon="mdi:calculator-variant"></iconify-icon>
+        Mode Perhitungan
+      </div>
+      <div class="mode-switch" id="afkModeSwitch">
+        <div class="mode-btn active" id="modeTotal" onclick="setAfkMode('total')"> KALKULATOR</div>
+        <div class="mode-btn" id="modeTarget" onclick="setAfkMode('target')"> TARGET</div>
+      </div>
+
+      <div class="field">
+        <label>Speed Awal (sebelum AFK)</label>
+        <div class="input-wrapper">
+          <input type="text" id="initialSpeedInput" value="1T" placeholder="cth: 1T, 110B, 500K">
+          <div class="input-badge empty" id="initialSpeedBadge"></div>
+        </div>
+        <div class="quick-btns">
+          <button type="button" onclick="setSpeed('1T')">1T</button>
+          <button type="button" onclick="setSpeed('10T')">10T</button>
+          <button type="button" onclick="setSpeed('100T')">100T</button>
+          <button type="button" onclick="setSpeed('1B')">1B</button>
+          <button type="button" onclick="setSpeed('100B')">100B</button>
+          <button type="button" onclick="setSpeed('1M')">1M</button>
+          <button type="button" onclick="setSpeed('1K')">1K</button>
+          <button type="button" onclick="setSpeed('')">Clear</button>
+        </div>
+      </div>
+
+      <div id="totalModeFields">
+        <label>Durasi AFK</label>
+        <div class="row">
+          <div class="field"><label style="font-size:0.7rem">Hari</label><input type="number" id="afkDays" value="1" min="0"></div>
+          <div class="field"><label style="font-size:0.7rem">Jam</label><input type="number" id="afkHours" value="0" min="0"></div>
+          <div class="field"><label style="font-size:0.7rem">Menit</label><input type="number" id="afkMinutes" value="0" min="0"></div>
+        </div>
+      </div>
+
+      <div id="targetModeFields" class="hidden">
+        <div class="field">
+          <label>Target Speed (yang ingin dicapai)</label>
+          <div class="input-wrapper">
+            <input type="text" id="targetSpeedInput" value="5T" placeholder="cth: 5T, 100B">
+            <div class="input-badge empty" id="targetSpeedBadge"></div>
+          </div>
+          <div class="quick-btns">
+            <button type="button" onclick="setTarget('2T')">2T</button>
+            <button type="button" onclick="setTarget('5T')">5T</button>
+            <button type="button" onclick="setTarget('10T')">10T</button>
+            <button type="button" onclick="setTarget('50T')">50T</button>
+            <button type="button" onclick="setTarget('100T')">100T</button>
+            <button type="button" onclick="setTarget('1Qa')">1Qa</button>
+            <button type="button" onclick="setTarget('')">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB EGG -->
+  <div id="modeHatch" class="hidden">
+    <div class="section">
+      <div class="section-title">⏳ Waktu Telur</div>
+      <div class="row">
+        <div class="field"><label>Hari</label><input type="number" id="eggDays" value="1" min="0"></div>
+        <div class="field"><label>Jam</label><input type="number" id="eggHours" value="12" min="0"></div>
+        <div class="field"><label>Menit</label><input type="number" id="eggMinutes" value="0" min="0"></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">⚡ Boost Event (Reset Spawn)</div>
+      <div class="row">
+        <div class="field"><label>Interval (menit)</label><input type="number" id="interval" value="5" min="0.1" step="0.1"></div>
+        <div class="field"><label>Durasi (detik)</label><input type="number" id="boostDur" value="10" min="0" step="0.1"></div>
+      </div>
+      <div class="field"><label>Multiplier boost (x)</label><input type="number" id="multiplier" value="30" min="1" step="0.1"></div>
+    </div>
+  </div>
+
+  <button class="main-btn" id="hitungBtn" onclick="hitung()">
+    <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 15.5C13.933 15.5 15.5 13.933 15.5 12C15.5 10.067 13.933 8.5 12 8.5C10.067 8.5 8.5 10.067 8.5 12C8.5 13.933 10.067 15.5 12 15.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="btn-text">Hitung Sekarang</span>
+  </button>
+
+  <div class="result" id="result">
+    <h2 id="resultTitle">Hasil</h2>
+    <div id="resultBody"></div>
+    <div class="detail" id="detail"></div>
+  </div>
+
+  <p class="note" id="modeNote">Mode AFK Treadmill: hitung total Speed/Step dari durasi AFK.</p>
+
+  <div style="height: 80px;"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+<div class="bottom-nav">
+  <div class="nav-item active" id="navTreadmill" onclick="switchTab('afk')">
+    <div class="nav-icon">
+      <iconify-icon icon="cbi:treadmill"></iconify-icon>
+    </div>
+    <div class="nav-label">Treadmill</div>
+  </div>
+
+  <div class="nav-item" id="navMusic" onclick="music()">
+    <div class="nav-icon">
+      <iconify-icon icon="streamline-ultimate:button-play-bold" id="musicIcon"></iconify-icon>
+    </div>
+    <div class="nav-label">Musik</div>
+  </div>
+
+  <div class="nav-item" id="navEgg" onclick="switchTab('hatch')">
+    <div class="nav-icon">
+      <iconify-icon icon="mdi:egg-outline"></iconify-icon>
+    </div>
+    <div class="nav-label">Egg</div>
+  </div>
+</div>
+
+<!-- ===== AUDIO 1: MUSIK INTRO/LOADING ===== -->
+<audio id="introAudio" src="https://files.catbox.moe/sqzh7h.mp3" loop></audio>
+
+<!-- ===== AUDIO 2: MUSIK DALAM HTML ===== -->
+<audio id="bgMusic" src="https://files.catbox.moe/ad3ms6.mp3" loop></audio>
+
+<!-- OVERLAY LOADING KALKULATOR -->
+<div class="steps-overlay" id="stepsOverlay">
+  <div class="steps-card">
+    <div class="spinner-wrapper">
+      <div class="spinner-ring">
+        <svg viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#e8c27a" stop-opacity="0" />
+              <stop offset="50%" stop-color="#d6a65c" stop-opacity="0.6" />
+              <stop offset="100%" stop-color="#c97883" stop-opacity="1" />
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/>
+          <circle id="progressCircle" cx="50" cy="50" r="42" fill="none" stroke="url(#gradient)" stroke-width="4"
+                  stroke-linecap="round" stroke-dasharray="0 264" filter="url(#glow)"
+                  style="transition: stroke-dasharray 0.15s linear;"/>
+        </svg>
+        <div class="spinner-center">
+          <div class="spinner-percent" id="spinnerPercent">0%</div>
+          <div class="spinner-label">Loading</div>
+        </div>
+      </div>
+      <div class="spinner-text" id="spinnerText">Mempersiapkan...</div>
+    </div>
+
+    <div class="steps-header">
+      <div class="steps-title">Menghitung...</div>
+      <div class="steps-subtitle" id="stepsSubtitle">Memproses data kamu</div>
+    </div>
+    <div id="stepsList"></div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-info">
+      <span id="progressStatus">Memulai...</span>
+      <span class="progress-percent" id="progressPercent">0%</span>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentMode = 'afk';
+let calibMode = false;
+let afkMode = 'total';
+var audioPlaying = false;
+
+/* ====== MUSIC PLAYER (bottom nav) ====== */
+function music() {
+  var audio = document.getElementById("bgMusic");
+  var icon = document.getElementById("musicIcon");
+  var btn = document.getElementById("navMusic");
+
+  if (!audioPlaying) {
+    audio.play();
+    icon.setAttribute("icon", "emojione-monotone:pause-button");
+    btn.classList.add("playing");
+  } else {
+    audio.pause();
+    icon.setAttribute("icon", "streamline-ultimate:button-play-bold");
+    btn.classList.remove("playing");
+  }
+  audioPlaying = !audioPlaying;
+}
+
+/* ====== TAB SWITCH ====== */
+function switchTab(mode) {
+  currentMode = mode;
+  document.getElementById('navTreadmill').classList.toggle('active', mode === 'afk');
+  document.getElementById('navEgg').classList.toggle('active', mode === 'hatch');
+  document.getElementById('modeAfk').classList.toggle('hidden', mode !== 'afk');
+  document.getElementById('modeHatch').classList.toggle('hidden', mode !== 'hatch');
+  document.getElementById('modeNote').textContent = mode === 'afk'
+    ? 'Mode AFK Treadmill: hitung total Speed/Step dari durasi AFK.'
+    : 'Mode Waktu Menetas: hitung berapa lama telur menetas dengan boost event.';
+  document.getElementById('result').classList.remove('show');
+}
+
+function setAfkMode(mode) {
+  afkMode = mode;
+  document.getElementById('modeTotal').classList.toggle('active', mode === 'total');
+  document.getElementById('modeTarget').classList.toggle('active', mode === 'target');
+  document.getElementById('totalModeFields').classList.toggle('hidden', mode !== 'total');
+  document.getElementById('targetModeFields').classList.toggle('hidden', mode !== 'target');
+  document.getElementById('result').classList.remove('show');
+}
+
+function toggleCalib() {
+  calibMode = !calibMode;
+  document.getElementById('calibSwitch').classList.toggle('on', calibMode);
+  document.getElementById('manualSpeedField').classList.toggle('hidden', !calibMode);
+}
+
+const treadmillSelect = document.getElementById('treadmill');
+const customTreadmillField = document.getElementById('customTreadmillField');
+treadmillSelect.addEventListener('change', () => {
+  customTreadmillField.style.display = treadmillSelect.value === 'custom' ? 'block' : 'none';
+});
+
+const trailSelect = document.getElementById('trail');
+const customTrailField = document.getElementById('customTrailField');
+trailSelect.addEventListener('change', () => {
+  customTrailField.style.display = trailSelect.value === 'custom' ? 'block' : 'none';
+});
+
+document.querySelectorAll('#gamepassGroup input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    cb.parentElement.classList.toggle('checked', cb.checked);
+  });
+  if (cb.checked) cb.parentElement.classList.add('checked');
+});
+
+function parseShortNumber(str) {
+  if (!str) return 0;
+  str = str.toString().trim().toUpperCase().replace(/,/g, '.');
+  const units = {
+    'K': 1e3, 'M': 1e6, 'B': 1e9, 'T': 1e12,
+    'QA': 1e15, 'QI': 1e18, 'SX': 1e21, 'SP': 1e24,
+    'OC': 1e27, 'NO': 1e30, 'DC': 1e33
+  };
+  const sortedUnits = Object.keys(units).sort((a, b) => b.length - a.length);
+  for (const u of sortedUnits) {
+    if (str.endsWith(u)) {
+      const num = parseFloat(str.slice(0, -u.length));
+      if (isNaN(num)) return 0;
+      return num * units[u];
+    }
+  }
+  const num = parseFloat(str);
+  return isNaN(num) ? 0 : num;
+}
+
+function toShortString(n) {
+  if (!isFinite(n) || n === 0) return '';
+  const abs = Math.abs(n);
+  if (abs < 1000) return n.toString().replace('.', ',');
+  const units = [
+    { v: 1e33, s: 'Dc' }, { v: 1e30, s: 'No' }, { v: 1e27, s: 'Oc' },
+    { v: 1e24, s: 'Sp' }, { v: 1e21, s: 'Sx' }, { v: 1e18, s: 'Qi' },
+    { v: 1e15, s: 'Qa' }, { v: 1e12, s: 'T' }, { v: 1e9, s: 'B' },
+    { v: 1e6, s: 'M' }, { v: 1e3, s: 'K' }
+  ];
+  for (const u of units) {
+    if (abs >= u.v) {
+      const val = n / u.v;
+      if (val === Math.floor(val)) return val.toString() + u.s;
+      return val.toFixed(val < 10 ? 2 : 1).replace(/\.?0+$/, '').replace('.', ',') + u.s;
+    }
+  }
+  return n.toString();
+}
+
+function attachBadge(inputId, badgeId) {
+  const input = document.getElementById(inputId);
+  const badge = document.getElementById(badgeId);
+  let lastText = '';
+  function update() {
+    const raw = input.value.trim();
+    if (!raw) {
+      badge.classList.add('empty');
+      badge.textContent = '';
+      lastText = '';
+      return;
+    }
+    const val = parseShortNumber(raw);
+    if (val === 0) {
+      badge.classList.add('empty');
+      badge.textContent = '';
+      lastText = '';
+      return;
+    }
+    const short = toShortString(val);
+    if (short !== lastText) {
+      badge.textContent = short;
+      badge.classList.remove('empty');
+      badge.classList.remove('pulse');
+      void badge.offsetWidth;
+      badge.classList.add('pulse');
+      lastText = short;
+    }
+  }
+  input.addEventListener('input', update);
+  input.addEventListener('keyup', update);
+  input.addEventListener('change', update);
+  input.addEventListener('paste', () => setTimeout(update, 10));
+  update();
+}
+
+attachBadge('initialSpeedInput', 'initialSpeedBadge');
+attachBadge('targetSpeedInput', 'targetSpeedBadge');
+attachBadge('customTreadmill', 'customTreadmillBadge');
+attachBadge('manualSpeedInput', 'manualSpeedBadge');
+
+function setSpeed(val) {
+  const input = document.getElementById('initialSpeedInput');
+  input.value = val;
+  input.dispatchEvent(new Event('input'));
+}
+function setTarget(val) {
+  const input = document.getElementById('targetSpeedInput');
+  input.value = val;
+  input.dispatchEvent(new Event('input'));
+}
+
+function getInitialSpeed() { return parseShortNumber
+                            (document.getElementById('initialSpeedInput').value); }
+function getTargetSpeed() { return parseShortNumber(document.getElementById('targetSpeedInput').value); }
+function getTreadmillSpeed() {
+  const val = treadmillSelect.value;
+  if (val === 'custom') return parseShortNumber(document.getElementById('customTreadmill').value) || 0;
+  return parseFloat(val) || 0;
+}
+function getTrailMult() {
+  const val = trailSelect.value;
+  if (val === 'custom') return parseFloat(document.getElementById('customTrail').value) || 1;
+  return parseFloat(val) || 1;
+}
+function getGamepassMult() {
+  let mult = 1;
+  document.querySelectorAll('#gamepassGroup input[type="checkbox"]:checked').forEach(cb => {
+    mult *= parseFloat(cb.value);
+  });
+  return mult;
+}
+
+function formatNumber(n) {
+  if (!isFinite(n)) return '∞';
+  return Math.round(n).toLocaleString('id-ID');
+}
+function formatBigNumber(n) {
+  if (!isFinite(n)) return '∞';
+  if (n < 1000) return Math.round(n).toLocaleString('id-ID');
+  const units = [
+    { v: 1e33, s: 'Dc' }, { v: 1e30, s: 'No' }, { v: 1e27, s: 'Oc' },
+    { v: 1e24, s: 'Sp' }, { v: 1e21, s: 'Sx' }, { v: 1e18, s: 'Qi' },
+    { v: 1e15, s: 'Qa' }, { v: 1e12, s: 'T' }, { v: 1e9, s: 'B' },
+    { v: 1e6, s: 'M' }, { v: 1e3, s: 'K' }
+  ];
+  for (const u of units) {
+    if (n >= u.v) {
+      const val = n / u.v;
+      return val.toFixed(val < 10 ? 2 : val < 100 ? 1 : 0) + u.s;
+    }
+  }
+  return n.toLocaleString('id-ID');
+}
+function formatPreciseNumber(n) {
+  if (!isFinite(n)) return '∞';
+  if (n === 0) return '0';
+  if (n < 1000) return n.toFixed(1).replace('.0', '').replace('.', ',');
+  const units = [
+    { v: 1e33, s: 'Dc' }, { v: 1e30, s: 'No' }, { v: 1e27, s: 'Oc' },
+    { v: 1e24, s: 'Sp' }, { v: 1e21, s: 'Sx' }, { v: 1e18, s: 'Qi' },
+    { v: 1e15, s: 'Qa' }, { v: 1e12, s: 'T' }, { v: 1e9, s: 'B' },
+    { v: 1e6, s: 'M' }, { v: 1e3, s: 'K' }
+  ];
+  for (const u of units) {
+    if (n >= u.v) {
+      const val = n / u.v;
+      if (val < 1000) return val.toFixed(1).replace('.0', '').replace('.', ',') + u.s;
+      return val.toFixed(0) + u.s;
+    }
+  }
+  return n.toLocaleString('id-ID');
+}
+function formatDuration(totalSec) {
+  if (!isFinite(totalSec) || totalSec <= 0) return '-';
+  const hari = Math.floor(totalSec / 86400);
+  const jam = Math.floor((totalSec % 86400) / 3600);
+  const menit = Math.floor((totalSec % 3600) / 60);
+  const detik = Math.round(totalSec % 60);
+  if (hari > 0) return `${hari} hari ${jam} jam ${menit} menit`;
+  if (jam > 0) return `${jam} jam ${menit} menit ${detik} detik`;
+  if (menit > 0) return `${menit} menit ${detik} detik`;
+  return `${detik} detik`;
+}
+
+const TOTAL_LOADING_MS = 5000;
+
+function showSteps(steps, customDuration) {
+  return new Promise((resolve) => {
+    const overlay = document.getElementById('stepsOverlay');
+    const list = document.getElementById('stepsList');
+    const progressFill = document.getElementById('progressFill');
+    const progressPercent = document.getElementById('progressPercent');
+    const spinnerPercent = document.getElementById('spinnerPercent');
+    const progressCircle = document.getElementById('progressCircle');
+    const progressStatus = document.getElementById('progressStatus');
+    const spinnerText = document.getElementById('spinnerText');
+
+    const totalDuration = customDuration || TOTAL_LOADING_MS;
+
+    list.innerHTML = '';
+    progressFill.style.width = '0%';
+    progressPercent.textContent = '0%';
+    spinnerPercent.textContent = '0%';
+    progressCircle.setAttribute('stroke-dasharray', '0 264');
+    progressStatus.textContent = 'Memulai...';
+    spinnerText.textContent = 'Mempersiapkan...';
+
+    steps.forEach((step, idx) => {
+      const el = document.createElement('div');
+      el.className = 'step-item';
+      el.id = `step-${idx}`;
+      el.innerHTML = `
+        <div class="step-icon">${step.icon}</div>
+        <div class="step-text">${step.text}</div>
+        <div class="step-value">${step.value || ''}</div>
+      `;
+      list.appendChild(el);
+    });
+
+    overlay.classList.add('show');
+
+    const startTime = performance.now();
+    let lastPercent = -1;
+
+    function animateProgress(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / totalDuration, 1);
+      const percent = Math.floor(progress * 100);
+
+      if (percent !== lastPercent) {
+        progressPercent.textContent = `${percent}%`;
+        spinnerPercent.textContent = `${percent}%`;
+        progressFill.style.width = `${percent}%`;
+        const circumference = 264;
+        const dashArray = (percent / 100) * circumference;
+        progressCircle.setAttribute('stroke-dasharray', `${dashArray} ${circumference}`);
+        lastPercent = percent;
+      }
+
+      if (percent < 15) {
+        progressStatus.textContent = 'Memuat konfigurasi...';
+        spinnerText.textContent = 'Memuat konfigurasi...';
+      } else if (percent < 35) {
+        progressStatus.textContent = 'Menghitung bonus...';
+        spinnerText.textContent = 'Menghitung bonus...';
+      } else if (percent < 60) {
+        progressStatus.textContent = 'Menghitung speed/step...';
+        spinnerText.textContent = 'Menghitung speed/step...';
+      } else if (percent < 85) {
+        progressStatus.textContent = 'Menghitung total...';
+        spinnerText.textContent = 'Menghitung total...';
+      } else {
+        progressStatus.textContent = 'Menyelesaikan...';
+        spinnerText.textContent = 'Menyelesaikan...';
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(animateProgress);
+      } else {
+        setTimeout(() => {
+          overlay.classList.remove('show');
+          resolve();
+        }, 400);
+      }
+    }
+
+    requestAnimationFrame(animateProgress);
+
+    const stepDuration = (totalDuration - 400) / steps.length;
+    let currentStep = 0;
+
+    function runStep() {
+      if (currentStep >= steps.length) return;
+      const el = document.getElementById(`step-${currentStep}`);
+      if (!el) return;
+      el.classList.add('active');
+      setTimeout(() => {
+        el.classList.remove('active');
+        el.classList.add('done');
+        el.querySelector('.step-icon').textContent = '✓';
+        currentStep++;
+        setTimeout(runStep, 80);
+      }, stepDuration);
+    }
+    setTimeout(runStep, 100);
+  });
+}
+
+async function hitung() {
+  const btn = document.getElementById('hitungBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+  document.getElementById('result').classList.remove('show');
+  try {
+    if (currentMode === 'afk') await hitungAfk();
+    else await hitungHatch();
+  } catch (e) { console.error(e); }
+  btn.classList.remove('loading');
+  btn.disabled = false;
+}
+
+async function hitungAfk() {
+  const stepsPerSec = parseFloat(document.getElementById('stepsPerSec').value) || 0;
+  if (stepsPerSec <= 0) { alert('Isi step per detik dulu!'); return; }
+
+  const initialSpeed = getInitialSpeed();
+  const treadmillSpeed = getTreadmillSpeed();
+  const trailMult = getTrailMult();
+  const gamepassMult = getGamepassMult();
+
+  let speedPerStep = 0;
+  let calcInfo = '';
+
+  if (calibMode) {
+    speedPerStep = parseShortNumber(document.getElementById('manualSpeedInput').value) || 0;
+    calcInfo = `Pakai Speed/Step asli dari game: <span>${formatPreciseNumber(speedPerStep)}</span>`;
+  } else {
+    const totalMult = gamepassMult + trailMult - 1;
+    speedPerStep = treadmillSpeed * totalMult;
+    calcInfo = `
+      Base Treadmill: <span>+${formatNumber(treadmillSpeed)}</span><br>
+      • Gamepass: <span>x${formatNumber(gamepassMult)}</span> (+${formatNumber(gamepassMult - 1)})<br>
+      • Trail: <span>x${formatNumber(trailMult)}</span> (+${formatNumber(trailMult - 1)})<br>
+      • Total pengali: <span>${formatNumber(totalMult)}</span><br>
+      • <b>Speed/Step: <span class="highlight">${formatPreciseNumber(speedPerStep)}</span></b>
+    `;
+  }
+
+  if (speedPerStep <= 0) { alert('Speed/Step-nya 0, cek input!'); return; }
+  const speedPerSec = speedPerStep * stepsPerSec;
+
+  if (afkMode === 'total') {
+    const d = parseFloat(document.getElementById('afkDays').value) || 0;
+    const h = parseFloat(document.getElementById('afkHours').value) || 0;
+    const m = parseFloat(document.getElementById('afkMinutes').value) || 0;
+    const totalSec = (d * 24 + h) * 3600 + m * 60;
+    if (totalSec <= 0) { alert('Isi durasi AFK dulu!'); return; }
+
+    const totalSteps = totalSec * stepsPerSec;
+    const speedGained = speedPerStep * totalSteps;
+    const totalFinal = initialSpeed + speedGained;
+
+    await showSteps([
+      { icon: '1', text: 'Memuat setup treadmill', value: `+${formatNumber(treadmillSpeed)}` },
+      { icon: '2', text: 'Menghitung bonus trail', value: `x${formatNumber(trailMult)}` },
+      { icon: '3', text: 'Menghitung bonus gamepass', value: `x${formatNumber(gamepassMult)}` },
+      { icon: '4', text: 'Menghitung Speed/Step', value: formatPreciseNumber(speedPerStep) },
+      { icon: '5', text: 'Menghitung total step', value: formatBigNumber(totalSteps) },
+      { icon: '6', text: 'Menghitung total speed', value: formatBigNumber(totalFinal) },
+    ], 5000);
+
+    document.getElementById('resultTitle').textContent = '🏃 Hasil AFK Treadmill';
+    document.getElementById('resultBody').innerHTML = `
+      <div class="result-item"><span class="label">Speed / Step</span><span class="value">${formatPreciseNumber(speedPerStep)}</span></div>
+      <div class="result-item"><span class="label">Speed / Detik</span><span class="value">${formatBigNumber(speedPerSec)}</span></div>
+      <div class="result-item"><span class="label">Total Step</span><span class="value">${formatBigNumber(totalSteps)}</span></div>
+      <div class="result-item"><span class="label">Speed Didapat</span><span class="value">${formatBigNumber(speedGained)}</span></div>
+      <div class="result-item"><span class="label">Speed Awal</span><span class="value small">${formatBigNumber(initialSpeed)}</span></div>
+      <div class="result-item"><span class="label"><b>Total Speed Akhir</b></span><span class="value big-green">${formatBigNumber(totalFinal)}</span></div>
+    `;
+    document.getElementById('detail').innerHTML = `
+      Durasi AFK: <span>${d}h ${h}j ${m}m</span> (${formatNumber(totalSec)} detik)<br>
+      Step/detik: <span>${stepsPerSec}</span><br><br>
+      <b>Perhitungan Speed/Step:</b><br>${calcInfo}<br><br>
+      <b>Perhitungan Total:</b><br>
+      • Total Step: <span>${formatBigNumber(totalSteps)}</span><br>
+      • Speed Didapat: <span>${formatBigNumber(speedGained)}</span><br>
+      • Total Akhir: <span class="highlight">${formatBigNumber(totalFinal)}</span>
+    `;
+  } else {
+    const targetSpeed = getTargetSpeed();
+    if (targetSpeed <= 0) { alert('Isi target speed dulu!'); return; }
+    if (targetSpeed <= initialSpeed) { alert('Target harus lebih besar dari Speed Awal!'); return; }
+
+    const speedNeeded = targetSpeed - initialSpeed;
+    const totalSec = speedNeeded / speedPerSec;
+    const hari = totalSec / 86400;
+    const jam = totalSec / 3600;
+    const menit = totalSec / 60;
+
+    await showSteps([
+      { icon: '1', text: 'Memuat setup treadmill', value: `+${formatNumber(treadmillSpeed)}` },
+      { icon: '2', text: 'Menghitung bonus trail', value: `x${formatNumber(trailMult)}` },
+      { icon: '3', text: 'Menghitung bonus gamepass', value: `x${formatNumber(gamepassMult)}` },
+      { icon: '4', text: 'Menghitung Speed/Step', value: formatPreciseNumber(speedPerStep) },
+      { icon: '5', text: 'Menghitung Speed/Detik', value: formatBigNumber(speedPerSec) },
+      { icon: '6', text: 'Menghitung durasi', value: formatDuration(totalSec) },
+    ], 5000);
+
+    document.getElementById('resultTitle').textContent = '🎯 Hasil Target Speed';
+    document.getElementById('resultBody').innerHTML = `
+      <div class="result-item"><span class="label">Speed Awal</span><span class="value small">${formatBigNumber(initialSpeed)}</span></div>
+      <div class="result-item"><span class="label">Target Speed</span><span class="value">${formatBigNumber(targetSpeed)}</span></div>
+      <div class="result-item"><span class="label">Speed Dibutuhkan</span><span class="value">${formatBigNumber(speedNeeded)}</span></div>
+      <div class="result-item"><span class="label">Speed / Detik</span><span class="value">${formatBigNumber(speedPerSec)}</span></div>
+      <div class="result-item"><span class="label"><b>Durasi Dibutuhkan</b></span><span class="value big-green">${formatDuration(totalSec)}</span></div>
+    `;
+    document.getElementById('detail').innerHTML = `
+      <b>Target: <span>${formatBigNumber(initialSpeed)}</span> → <span>${formatBigNumber(targetSpeed)}</span></b><br><br>
+      <b>Perhitungan Speed/Step:</b><br>${calcInfo}<br><br>
+      <b>Perhitungan Durasi:</b><br>
+      • Speed Dibutuhkan: <span>${formatBigNumber(speedNeeded)}</span><br>
+      • Speed/Detik: <span>${formatBigNumber(speedPerSec)}</span><br>
+      • <b>Durasi: <span class="highlight">${formatDuration(totalSec)}</span></b><br><br>
+      <b>Rincian:</b><br>
+      • ${hari.toFixed(2)} hari<br>
+      • ${jam.toFixed(2)} jam<br>
+      • ${menit.toFixed(2)} menit
+    `;
+  }
+  document.getElementById('result').classList.add('show');
+}
+
+async function hitungHatch() {
+  const d = parseFloat(document.getElementById('eggDays').value) || 0;
+  const h = parseFloat(document.getElementById('eggHours').value) || 0;
+  const m = parseFloat(document.getElementById('eggMinutes').value) || 0;
+  const totalNormal = (d * 24 + h) * 3600 + m * 60;
+  if (totalNormal <= 0) { alert('Isi waktu telur dulu!'); return; }
+
+  const intervalMin = parseFloat(document.getElementById('interval').value) || 5;
+  const boostSec = parseFloat(document.getElementById('boostDur').value) || 0;
+  const boostMult = parseFloat(document.getElementById('multiplier').value) || 1;
+
+  const intervalSec = intervalMin * 60;
+  const cycleSec = intervalSec + boostSec;
+  const progressPerCycle = intervalSec + (boostSec * boostMult);
+  const cyclesNeeded = totalNormal / progressPerCycle;
+  const totalRealSec = cyclesNeeded * cycleSec;
+
+  await showSteps([
+    { icon: '1', text: 'Memuat waktu telur', value: `${d}h ${h}j ${m}m` },
+    { icon: '2', text: 'Menghitung boost event', value: `x${boostMult}` },
+    { icon: '3', text: 'Menghitung progress/siklus', value: formatNumber(progressPerCycle) },
+    { icon: '4', text: 'Menghitung total siklus', value: Math.ceil(cyclesNeeded).toLocaleString('id-ID') },
+    { icon: '5', text: 'Menghitung waktu real', value: formatDuration(totalRealSec) },
+  ], 5000);
+
+  const speedup = progressPerCycle / cycleSec;
+  document.getElementById('resultTitle').textContent = '🥚 Hasil Waktu Menetas';
+  document.getElementById('resultBody').innerHTML = `
+    <div class="result-item"><span class="label"><b>Waktu Menetas</b></span><span class="value big-green">${formatDuration(totalRealSec)}</span></div>
+  `;
+  document.getElementById('detail').innerHTML = `
+    Waktu normal: <span>${d}h ${h}j ${m}m</span> (${formatNumber(totalNormal)} detik)<br><br>
+    <b>Boost event:</b><br>
+    • Setiap <span>${intervalMin} menit</span> selama <span>${boostSec} detik</span><br>
+    • Boost multiplier: <span>x${boostMult}</span><br><br>
+    Kecepatan efektif: <span class="highlight">${speedup.toFixed(2)}x</span> lebih cepat<br>
+    Total siklus: <span>${Math.ceil(cyclesNeeded).toLocaleString('id-ID')}</span>
+  `;
+  document.getElementById('result').classList.add('show');
+}
+
+/* ===== INTRO INTERACTION + ANIMASI TYPING ===== */
+(function () {
+  const intro = document.getElementById('introScreen');
+  const enter = document.getElementById('enterTools');
+  const enterText = document.getElementById('enterText');
+  const introMusicBtn = document.getElementById('introMusicBtn');
+  const introMusicIcon = document.getElementById('introMusicIcon');
+  const introVideo = document.getElementById('introVideo');
+  const introAudio = document.getElementById('introAudio');
+  const bgMusic = document.getElementById('bgMusic');
+  const ringFill = document.getElementById('introRingFill');
+  const introPercent = document.getElementById('introPercent');
+  const introSubtitle = document.getElementById('introSubtitle');
+  const introHint = document.getElementById('introHint');
+  const introKicker = document.getElementById('introKicker');
+  const introActions = document.querySelector('.intro-actions');
+
+    // Video intro autoplay
+  if (introVideo) {
+    const p = introVideo.play();
+    if (p && typeof p.catch === 'function') p.catch(function () {});
+  }
+
+  /* ===== FUNGSI TYPING PER HURUF ===== */
+  function typeText(element, text, speed, callback) {
+    element.innerHTML = '';
+    const cursor = document.createElement('span');
+    cursor.className = 'cursor';
+    element.appendChild(cursor);
+
+    let i = 0;
+    const timer = setInterval(function () {
+      if (i < text.length) {
+        cursor.insertAdjacentText('beforebegin', text.charAt(i));
+        i++;
+      } else {
+        clearInterval(timer);
+        if (callback) callback();
+      }
+    }, speed);
+  }
+
+  /* ===== FUNGSI REVEAL PER KATA ===== */
+  function revealWords(wordElements, delay, callback) {
+    let i = 0;
+    const timer = setInterval(function () {
+      if (i < wordElements.length) {
+        const el = wordElements[i];
+        el.textContent = el.dataset.text;
+        el.classList.add('revealed');
+        i++;
+      } else {
+        clearInterval(timer);
+        if (callback) callback();
+      }
+    }, delay);
+  }
+
+  /* ===== MULAI ANIMASI TYPING ===== */
+  setTimeout(function () {
+    typeText(introKicker, 'MiozXrip presents', 40, function () {
+      const words = document.querySelectorAll('.intro-word');
+      setTimeout(function () {
+        revealWords(words, 200, function () {
+          setTimeout(function () {
+            typeText(introSubtitle, 'Kalkulator Steal an Egg', 35, function () {
+              introActions.classList.add('revealed');
+              introHint.classList.add('revealed');
+            });
+          }, 300);
+        });
+      }, 200);
+    });
+  }, 500);
+
+  /* ===== ANIMASI LOADING RING ===== */
+  const INTRO_LOAD_MS = 5000;
+  const startTime = performance.now();
+  let introPercentLast = -1;
+  let loadingComplete = false;
+
+  function animateIntroLoading(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / INTRO_LOAD_MS, 1);
+    const percent = Math.floor(progress * 100);
+
+    if (percent !== introPercentLast) {
+      introPercent.textContent = percent + '%';
+      const circumference = 2 * Math.PI * 65;
+      const dashArray = (percent / 100) * circumference;
+      ringFill.setAttribute('stroke-dasharray', `${dashArray} ${circumference}`);
+      introPercentLast = percent;
+    }
+
+    if (progress < 1) {
+      requestAnimationFrame(animateIntroLoading);
+    } else {
+      loadingComplete = true;
+      enter.disabled = false;
+      introHint.textContent = 'Tekan untuk masuk · musik akan diputar';
+    }
+  }
+  requestAnimationFrame(animateIntroLoading);
+
+  /* ===== TOMBOL PLAY/PAUSE MUSIK INTRO ===== */
+  var introAudioPlaying = false;
+  introMusicBtn.addEventListener('click', function () {
+    if (!introAudioPlaying) {
+      introAudio.play().then(function () {
+        introAudioPlaying = true;
+        introMusicIcon.setAttribute('icon', 'emojione-monotone:pause-button');
+        introMusicBtn.classList.add('playing');
+      }).catch(function (err) {
+        console.error('Intro audio play failed:', err);
+      });
+    } else {
+      introAudio.pause();
+      introAudioPlaying = false;
+      introMusicIcon.setAttribute('icon', 'streamline-ultimate:button-play-bold');
+      introMusicBtn.classList.remove('playing');
+    }
+  });
+
+  // Auto-play musik intro
+  if (introAudio) {
+    introAudio.volume = 0.55;
+    const p = introAudio.play();
+    if (p && typeof p.then === 'function') {
+      p.then(function () {
+        introAudioPlaying = true;
+        introMusicIcon.setAttribute('icon', 'emojione-monotone:pause-button');
+        introMusicBtn.classList.add('playing');
+      }).catch(function () {});
+    }
+  }
+
+  /* ===== TOMBOL MASUK KE TOOLS ===== */
+  enter.addEventListener('click', function () {
+    if (!loadingComplete) return;
+    enter.disabled = true;
+    enterText.textContent = 'MEMBUKA TOOLS...';
+
+    // Fade out musik intro
+    if (introAudio) {
+      let vol = introAudio.volume;
+      const fadeOut = setInterval(function () {
+        vol -= 0.05;
+        if (vol <= 0) {
+          introAudio.pause();
+          introAudio.volume = 0.55;
+          clearInterval(fadeOut);
+        } else {
+          introAudio.volume = vol;
+        }
+      }, 50);
+    }
+
+    // Mulai musik dalam HTML
+    setTimeout(function () {
+      if (bgMusic) {
+        bgMusic.volume = 0.65;
+        bgMusic.play().then(function () {
+          audioPlaying = true;
+          const navIcon = document.getElementById('musicIcon');
+          const navBtn = document.getElementById('navMusic');
+          if (navIcon) navIcon.setAttribute('icon', 'emojione-monotone:pause-button');
+          if (navBtn) navBtn.classList.add('playing');
+        }).catch(function () {
+          audioPlaying = false;
+        });
+      }
+    }, 400);
+
+    // Hide intro screen
+    intro.classList.add('intro-hidden');
+    window.setTimeout(function () {
+      intro.style.display = 'none';
+    }, 900);
+  });
+})();
+</script>
+</body>
+</html>
+                           
+                            
+  
+        
